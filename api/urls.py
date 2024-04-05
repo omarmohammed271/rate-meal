@@ -6,8 +6,10 @@ app_name = 'api'
 router = DefaultRouter()
 router.register('meal',views.MealViewsets)
 router.register('rating',views.RatingViewsets)
+router.register('users',views.UserViewsets)
 
 
 urlpatterns = [
     path('',include(router.urls)),
+    path('register/',views.register)
 ]

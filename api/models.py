@@ -10,6 +10,20 @@ class Meal(models.Model):
 
     def __str__(self) -> str:
         return self.title
+    
+    def num_reviews(self):
+        rating = Rating.objects.filter(meal=self)
+        return len(rating)
+    
+    def avg(self):
+        rating = Rating.objects.filter(meal=self)
+        num_stars = 0
+        for x in rating:
+            num_stars += x.stars
+        if len(rating) > 0:    
+            return num_stars/len(rating)    
+        return 0
+
 
 class Rating(models.Model):
     meal = models.ForeignKey(Meal, on_delete=models.CASCADE)     
@@ -18,3 +32,6 @@ class Rating(models.Model):
 
     def __str__(self) -> str:
         return str(self.meal)
+    class Meta:
+        unique_together = (('user', 'meal'),)
+        index_together = (('user', 'meal'),) 
